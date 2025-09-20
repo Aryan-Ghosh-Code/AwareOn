@@ -1,0 +1,355 @@
+{
+"pairs": {
+"plastic|plastic": {
+"problem": "Plastic Waste",
+"sdgs": ["12","14","11"],
+"insights": {
+"immediate": [
+"Strictly enforce Single-Use Plastic bans with surprise checks on manufacturers and importers",
+"Set up rapid MRFs in municipalities; introduce deposit-return systems for PET in metros"
+],
+"short_term": [
+"Audit EPR compliance for FMCG/brands; mandate recycled content in packaging",
+"Scale decentralized composting to keep plastics dry and clean for recycling"
+],
+"long_term": [
+"Invest in advanced recycling (mechanical and chemical) with quality standards",
+"Drive product redesign and reuse systems (refill stations, durable packaging); deploy riverine plastic interception at scale"
+]
+}
+},
+"deforestation|deforestation": {
+"problem": "Deforestation",
+"sdgs": ["15", "13", "12"],
+"insights": {
+"immediate": [
+"Halt illegal felling with satellite monitoring and ground task forces",
+"Suspend clearances in high-biodiversity areas pending cumulative impact assessments"
+],
+"short_term": [
+"Digitize and geofence forest boundaries; enable community forest rights with conservation incentives",
+"Adopt deforestation-free procurement policies for public buyers (timber, paper, oilseeds)"
+],
+"long_term": [
+"Scale assisted natural regeneration and climate-resilient forestry plans",
+"Develop payment for ecosystem services and carbon finance for community forests"
+]
+}
+}
+},
+"fallbackByImage": {
+"endangered_species": {
+"problem": "Endangered Species Risk",
+"sdgs": ["15", "14", "12"],
+"insights": {
+"immediate": [
+"Enforce Wildlife Protection Act at poaching hotspots; boost night patrols and e-surveillance",
+"Emergency protection for micro-habitats of critically endangered species; stop-gap fencing and signage",
+"Fast-track invasive species removal in key protected areas"
+],
+"short_term": [
+"Expand and connect Protected Areas and Eco-Sensitive Zones; finance community co-management",
+"Implement species recovery plans with targeted breeding and reintroduction (e.g., Great Indian Bustard, gharial)",
+"Scale biodiversity monitoring via eDNA, camera traps, and citizen science platforms"
+],
+"long_term": [
+"Secure wildlife corridors through land acquisition/easements and landscape-level planning",
+"Integrate biodiversity criteria into infrastructure siting; rigorous biodiversity offsets",
+"Mainstream biodiversity-friendly practices in agriculture and forestry (agroforestry, reduced chemicals)"
+]
+}
+},
+"algal_bloom": {
+"problem": "Algal Bloom",
+"sdgs": ["6", "14", "12"],
+"insights": {
+"immediate": [
+"Enforce discharge standards for STPs/CETPs; deploy temporary aeration in hotspot lakes",
+"Issue nutrient-use advisories to farmers near vulnerable water bodies; prevent urea dumping in canals"
+],
+"short_term": [
+"Upgrade STPs for nitrogen/phosphorus removal in Class I cities; promote constructed wetlands",
+"Implement lake restoration (desiltation, buffer vegetation, stormwater separators, catchment NPS control)",
+"Roll out precision fertilization, soil testing, and biofertilizers programs"
+],
+"long_term": [
+"Establish watershed-scale nutrient budgeting with real-time monitoring",
+"Develop circular nutrient economy (struvite recovery, manure management)",
+"Adopt land-use planning to reduce runoff; restore riparian buffers"
+]
+}
+},
+"clear_water": {
+"problem": "Clear Water",
+"sdgs": ["6", "14", "3"],
+"insights": {
+"immediate": [
+"Intensify inspections at pollution hotspots; issue closure notices for gross violators",
+"Deploy low-cost turbidity and E. coli sensors at bathing ghats and drinking water intakes"
+],
+"short_term": [
+"Implement universal metering and non-revenue water reduction in cities",
+"Upgrade rural water treatment for fluoride, arsenic, and other priority contaminants",
+"Adopt stormwater master plans with first-flush capture and silt traps"
+],
+"long_term": [
+"Strengthen river basin authorities for integrated water resources management",
+"Invest in nature-based solutions: wetlands and floodplain restoration with sustained O&M financing"
+]
+}
+},
+"deforestation": {
+"problem": "Deforestation",
+"sdgs": ["15", "13", "12"],
+"insights": {
+"immediate": [
+"Halt illegal felling with satellite monitoring and ground task forces",
+"Suspend clearances in high-biodiversity areas pending cumulative impact assessments"
+],
+"short_term": [
+"Digitize and geofence forest boundaries; enable community forest rights with conservation incentives",
+"Adopt deforestation-free procurement policies for public buyers (timber, paper, oilseeds)"
+],
+"long_term": [
+"Scale assisted natural regeneration and climate-resilient forestry plans",
+"Develop payment for ecosystem services and carbon finance for community forests"
+]
+}
+},
+"no_deforestation": {
+"problem": "No Deforestation (Compliance)",
+"sdgs": ["15", "13", "12"],
+"insights": {
+"immediate": [
+"Announce no-deforestation zones; publish forest-clearance transparency dashboards"
+],
+"short_term": [
+"Implement certification and traceability for timber and NTFPs with monitoring, reporting, and verification",
+"Strengthen urban bylaws to prevent forest-edge encroachment; tighten compensatory afforestation quality checks"
+],
+"long_term": [
+"Embed no-deforestation clauses in national supply chains and trade agreements with long-term monitoring",
+"Conduct landscape-level planning to protect conservation corridors alongside development"
+]
+}
+},
+"forest_fire": {
+"problem": "Forest Fire Risk",
+"sdgs": ["15", "13", "3"],
+"insights": {
+"immediate": [
+"Pre-position fire lines, water tanks, and volunteer brigades; send SMS/IVRS alerts before heatwaves",
+"Temporarily ban agricultural and residue burning during red-flag days with strict enforcement"
+],
+"short_term": [
+"Deploy early warning using VIIRS/MODIS and IMD forecasts; equip departments with drones and thermal cameras",
+"Establish community fire management programs and alternative livelihoods to reduce ignition"
+],
+"long_term": [
+"Manage fuel loads with controlled burns where appropriate; restore ecosystems to reduce flammability",
+"Integrate fire risk into land-use planning; implement climate-adaptive forest management"
+]
+}
+},
+"good_air": {
+"problem": "Good Air Quality (Maintaining)",
+"sdgs": ["3", "11", "13"],
+"insights": {
+"immediate": [
+"Apply GRAP-like seasonal measures in non-NCR hotspots; intensify inspections of large point sources",
+"Promote public transport, staggered work hours, and dust suppression at construction sites on severe days"
+],
+"short_term": [
+"Expand CEMS/PEMS coverage in industries; retrofit brick kilns to cleaner technologies",
+"Scale EV buses and last-mile EV logistics with targeted subsidies and charging infrastructure"
+],
+"long_term": [
+"Advance clean energy transition in power and industry (renewables, storage, green hydrogen pilots)",
+"Adopt transit-oriented development, low-emission zones, and robust crop residue management supply chains"
+]
+}
+},
+"polluted_air": {
+"problem": "Air Pollution",
+"sdgs": ["3", "11", "13"],
+"insights": {
+"immediate": [
+"Impose emergency controls on heavily polluting stacks; restrict DG sets during red alerts where feasible",
+"Increase road dust vacuuming; provide real-time AQ displays for public advisories"
+],
+"short_term": [
+"Implement city action plans under NCAP with clear targets; expand monitoring (PM2.5 speciation, NO2, O3)",
+"Subsidize alternatives to agricultural burning (Happy Seeder) and build decentralized biomass markets"
+],
+"long_term": [
+"Shift MSMEs to clean fuels (PNG, electricity); consolidate urban freight and shift to rail where possible",
+"Establish regional airshed management across state borders with coordinated policies"
+]
+}
+},
+"plastic": {
+"problem": "Plastic Waste",
+"sdgs": ["12", "14", "11"],
+"insights": {
+"immediate": [
+"Strictly enforce Single-Use Plastic bans with surprise checks on manufacturers and importers",
+"Set up rapid MRFs in municipalities; introduce deposit-return systems for PET in metros"
+],
+"short_term": [
+"Audit EPR compliance for FMCG/brands; mandate recycled content in packaging",
+"Scale decentralized composting to keep plastics dry and clean for recycling"
+],
+"long_term": [
+"Invest in advanced recycling (mechanical and chemical) with quality standards",
+"Drive product redesign and reuse systems (refill stations, durable packaging); deploy riverine plastic interception at scale"
+]
+}
+}
+},
+"fallbackByText": {
+"endangered_species": {
+"problem": "Endangered Species Risk",
+"sdgs": ["15", "14", "12"],
+"insights": {
+"immediate": [
+"Enforce Wildlife Protection Act at poaching hotspots; boost night patrols and e-surveillance"
+],
+"short_term": [
+"Implement species recovery plans with targeted breeding and reintroduction (e.g., Great Indian Bustard, gharial)"
+],
+"long_term": [
+"Secure wildlife corridors through land acquisition/easements and landscape-level planning"
+]
+}
+},
+"algal_bloom": {
+"problem": "Algal Bloom",
+"sdgs": ["6", "14", "12"],
+"insights": {
+"immediate": [
+"Enforce discharge standards for STPs/CETPs; deploy temporary aeration in hotspot lakes"
+],
+"short_term": [
+"Upgrade STPs for nitrogen/phosphorus removal in Class I cities; promote constructed wetlands"
+],
+"long_term": [
+"Establish watershed-scale nutrient budgeting with real-time monitoring"
+]
+}
+},
+"clear_water": {
+"problem": "Clear Water",
+"sdgs": ["6", "14", "3"],
+"insights": {
+"immediate": [
+"Deploy low-cost turbidity and E. coli sensors at bathing ghats and drinking water intakes"
+],
+"short_term": [
+"Implement universal metering and non-revenue water reduction in cities"
+],
+"long_term": [
+"Strengthen river basin authorities for integrated water resources management"
+]
+}
+},
+"deforestation": {
+"problem": "Deforestation",
+"sdgs": ["15", "13", "12"],
+"insights": {
+"immediate": [
+"Halt illegal felling with satellite monitoring and ground task forces"
+],
+"short_term": [
+"Digitize and geofence forest boundaries; enable community forest rights with conservation incentives"
+],
+"long_term": [
+"Scale assisted natural regeneration and climate-resilient forestry plans"
+]
+}
+},
+"no_deforestation": {
+"problem": "No Deforestation (Compliance)",
+"sdgs": ["15", "13", "12"],
+"insights": {
+"immediate": [
+"Announce no-deforestation zones; publish forest-clearance transparency dashboards"
+],
+"short_term": [
+"Implement certification and traceability for timber and NTFPs with monitoring, reporting, and verification"
+],
+"long_term": [
+"Embed no-deforestation clauses in national supply chains and trade agreements with long-term monitoring"
+]
+}
+},
+"forest_fire": {
+"problem": "Forest Fire Risk",
+"sdgs": ["15", "13", "3"],
+"insights": {
+"immediate": [
+"Pre-position fire lines, water tanks, and volunteer brigades; send SMS/IVRS alerts before heatwaves"
+],
+"short_term": [
+"Deploy early warning using VIIRS/MODIS and IMD forecasts; equip departments with drones and thermal cameras"
+],
+"long_term": [
+"Manage fuel loads with controlled burns where appropriate; restore ecosystems to reduce flammability"
+]
+}
+},
+"good_air": {
+"problem": "Good Air Quality (Maintaining)",
+"sdgs": ["3", "11", "13"],
+"insights": {
+"immediate": [
+"Apply GRAP-like seasonal measures in non-NCR hotspots; intensify inspections of large point sources"
+],
+"short_term": [
+"Expand CEMS/PEMS coverage in industries; retrofit brick kilns to cleaner technologies"
+],
+"long_term": [
+"Advance clean energy transition in power and industry (renewables, storage, green hydrogen pilots)"
+]
+}
+},
+"polluted_air": {
+"problem": "Air Pollution",
+"sdgs": ["3", "11", "13"],
+"insights": {
+"immediate": [
+"Impose emergency controls on heavily polluting stacks; restrict DG sets during red alerts where feasible"
+],
+"short_term": [
+"Implement city action plans under NCAP with clear targets; expand monitoring (PM2.5 speciation, NO2, O3)"
+],
+"long_term": [
+"Shift MSMEs to clean fuels (PNG, electricity); consolidate urban freight and shift to rail where possible"
+]
+}
+},
+"plastic": {
+"problem": "Plastic Waste",
+"sdgs": ["12", "14", "11"],
+"insights": {
+"immediate": [
+"Strictly enforce Single-Use Plastic bans with surprise checks on manufacturers and importers"
+],
+"short_term": [
+"Audit EPR compliance for FMCG/brands; mandate recycled content in packaging"
+],
+"long_term": [
+"Invest in advanced recycling (mechanical and chemical) with quality standards"
+]
+}
+}
+},
+"default": {
+"problem": "General Environmental Issue",
+"sdgs": ["13"],
+"insights": {
+"immediate": ["Gather more evidence (photos, sensor data, geotags)"],
+"short_term": ["Coordinate with local authorities and community stakeholders"],
+"long_term": ["Plan sustained monitoring and capacity building"]
+}
+}
+}
