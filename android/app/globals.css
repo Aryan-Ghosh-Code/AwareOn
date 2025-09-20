@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input-primary {
+    @apply text-light-100 rounded-lg border border-gray-400 w-full focus:border-2 focus:border-light-300 placeholder:text-gray-500;
+}
+
+.btn-primary {
+    @apply bg-blue-600 rounded-lg shadow-md active:bg-blue-700;
+}
+
+.btn-secondary {
+    @apply border p-1.5 rounded-lg border-light-300;
+}
+
+.glassmorphic {
+    @apply bg-white/5 backdrop-blur-2xl shadow-md border border-white/15
+}
