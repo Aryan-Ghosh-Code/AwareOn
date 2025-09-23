@@ -12,6 +12,7 @@ const GovSignup = () => {
     email: "",
     mobileNo: "",
     city: "",
+    town: "",
     state: "",
     pincode: "",
     password: ""
@@ -107,6 +108,19 @@ const GovSignup = () => {
                 className="input-primary"
                 value={inputs.city}
                 onChange={(e) => setInputs({ ...inputs, city: e.target.value })}
+              />
+            </div>
+
+            {/* Town */}
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-lg font-medium text-gray-300 flex items-center gap-1.5"><FaMapPin />Town</label>
+              <input
+                type="text"
+                placeholder="Enter your Town"
+                required
+                className="input-primary"
+                value={inputs.town}
+                onChange={(e) => setInputs({ ...inputs, town: e.target.value })}
               />
             </div>
 
