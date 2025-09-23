@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import Problem from "../models/problem.model";
-import Project from "../models/project.model";
 
 export const getStats = async (req: Request, res: Response) => {
     try {
@@ -11,19 +10,49 @@ export const getStats = async (req: Request, res: Response) => {
                     // Total problems
                     total: [{ $count: "count" }],
 
-                    // SDG 13 problems
-                    sdg13: [
-                        { $match: { SDG: { $in: ["13"] } } },
+                    // Ministry of Road Transport and Highways problems
+                    roadTransport: [
+                        { $match: { ministry: "Ministry of Road Transport and Highways" } },
                         { $count: "count" }
                     ],
-                    // SDG 14 problems
-                    sdg14: [
-                        { $match: { SDG: { $in: ["14"] } } },
+                    // Urban Development Department problems
+                    urbanDevelopment: [
+                        { $match: { ministry: "Urban Development Department" } },
                         { $count: "count" }
                     ],
-                    // SDG 15 problems
-                    sdg15: [
-                        { $match: { SDG: { $in: ["15"] } } },
+                    // Traffic Police Department problems
+                    trafficPolice: [
+                        { $match: { ministry: "Traffic Police Department" } },
+                        { $count: "count" }
+                    ],
+                    // Transport Department problems
+                    transport: [
+                        { $match: { ministry: "Transport Department" } },
+                        { $count: "count" }
+                    ],
+                    // Forest Department problems
+                    forest: [
+                        { $match: { ministry: "Forest Department" } },
+                        { $count: "count" }
+                    ],
+                    // Ministry of Environment problems
+                    environment: [
+                        { $match: { ministry: "Ministry of Environment" } },
+                        { $count: "count" }
+                    ],
+                    // Municipal Health Department problems
+                    municipalHealth: [
+                        { $match: { ministry: "Municipal Health Department" } },
+                        { $count: "count" }
+                    ],
+                    // Public Works Department (PWD) problems
+                    publicWorks: [
+                        { $match: { ministry: "Public Works Department (PWD)" } },
+                        { $count: "count" }
+                    ],
+                    // Power Supply Department problems
+                    powerSupply: [
+                        { $match: { ministry: "Power Supply Department" } },
                         { $count: "count" }
                     ],
 
@@ -85,9 +114,15 @@ export const getStats = async (req: Request, res: Response) => {
             {
                 $project: {
                     problems: { $ifNull: [{ $arrayElemAt: ["$total.count", 0] }, 0] },
-                    problems13: { $ifNull: [{ $arrayElemAt: ["$sdg13.count", 0] }, 0] },
-                    problems14: { $ifNull: [{ $arrayElemAt: ["$sdg14.count", 0] }, 0] },
-                    problems15: { $ifNull: [{ $arrayElemAt: ["$sdg15.count", 0] }, 0] },
+                    roadTransportProblems: { $ifNull: [{ $arrayElemAt: ["$roadTransport.count", 0] }, 0] },
+                    urbanDevelopmentProblems: { $ifNull: [{ $arrayElemAt: ["$urbanDevelopment.count", 0] }, 0] },
+                    trafficPoliceProblems: { $ifNull: [{ $arrayElemAt: ["$trafficPolice.count", 0] }, 0] },
+                    transportProblems: { $ifNull: [{ $arrayElemAt: ["$transport.count", 0] }, 0] },
+                    forestProblems: { $ifNull: [{ $arrayElemAt: ["$forest.count", 0] }, 0] },
+                    environmentProblems: { $ifNull: [{ $arrayElemAt: ["$environment.count", 0] }, 0] },
+                    municipalHealthProblems: { $ifNull: [{ $arrayElemAt: ["$municipalHealth.count", 0] }, 0] },
+                    publicWorksProblems: { $ifNull: [{ $arrayElemAt: ["$publicWorks.count", 0] }, 0] },
+                    powerSupplyProblems: { $ifNull: [{ $arrayElemAt: ["$powerSupply.count", 0] }, 0] },
                     pendingProblems: { $ifNull: [{ $arrayElemAt: ["$pending.count", 0] }, 0] },
                     ongoingProblems: { $ifNull: [{ $arrayElemAt: ["$ongoing.count", 0] }, 0] },
                     resolvedForUser: { $ifNull: [{ $arrayElemAt: ["$resolvedUser.count", 0] }, 0] },
@@ -105,88 +140,8 @@ export const getStats = async (req: Request, res: Response) => {
             }
         ]);
 
-        // --- Projects Aggregation (Funds per SDG) ---
-        const fundsAgg = await Project.aggregate([
-            {
-                $project: {
-                    fundRaised: 1,
-                    sdg13: {
-                        $cond: [
-                            {
-                                $gt: [
-                                    {
-                                        $size: {
-                                            $filter: {
-                                                input: "$SDG",
-                                                as: "s",
-                                                cond: { $regexMatch: { input: "$$s", regex: /^13\./ } }
-                                            }
-                                        }
-                                    },
-                                    0
-                                ]
-                            },
-                            "$fundRaised",
-                            0
-                        ]
-                    },
-                    sdg14: {
-                        $cond: [
-                            {
-                                $gt: [
-                                    {
-                                        $size: {
-                                            $filter: {
-                                                input: "$SDG",
-                                                as: "s",
-                                                cond: { $regexMatch: { input: "$$s", regex: /^14\./ } }
-                                            }
-                                        }
-                                    },
-                                    0
-                                ]
-                            },
-                            "$fundRaised",
-                            0
-                        ]
-                    },
-                    sdg15: {
-                        $cond: [
-                            {
-                                $gt: [
-                                    {
-                                        $size: {
-                                            $filter: {
-                                                input: "$SDG",
-                                                as: "s",
-                                                cond: { $regexMatch: { input: "$$s", regex: /^15\./ } }
-                                            }
-                                        }
-                                    },
-                                    0
-                                ]
-                            },
-                            "$fundRaised",
-                            0
-                        ]
-                    }
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    funds13: { $sum: "$sdg13" },
-                    funds14: { $sum: "$sdg14" },
-                    funds15: { $sum: "$sdg15" }
-                }
-            }
-        ]);
-
         // Final response
-        res.json({
-            ...problemsAgg[0],
-            ...(fundsAgg[0] || { funds13: 0, funds14: 0, funds15: 0 })
-        });
+        res.json(problemsAgg[0]);
     } catch (error) {
         console.log("Error in getStats controller:", error);
         res.status(500).json({ error: "Internal Server Error" });

@@ -58,25 +58,25 @@ export const postProblem = async (req: Request, res: Response) => {
                 lon,
                 address
             },
-            problem: "Littering Garbage",
-            ministry: "Ministry of Health & Wellbeing",
+            problem: "Stagnant Water",
+            ministry: "Municipal Health Department",
             description,
             alertLevel: "high",
-            confidence: 92.88,
+            confidence: 0.9873,
             actionableInsights: [
-                "Increase frequency of waste collection",
-                "Install more dustbins and segregation points",
-                "Promote public awareness campaigns"
+                "Spray larvicides",
+                "Clear clogged drains",
+                "Promote citizen cleanliness drives"
             ],
             shortTermImpacts: [
-                "Bad odor and visual pollution",
-                "Spread of diseases",
-                "Rodent and stray animal increase"
+                "Mosquito growth",
+                "Dengue and malaria outbreaks",
+                "Unhygienic living conditions"
             ],
             longTermImpacts: [
-                "Environmental degradation",
-                "Public health crises",
-                "Tourism and city image decline"
+                "Chronic public health challenges",
+                "Increased healthcare costs",
+                "Reduced urban livability"
             ]
         });
 
