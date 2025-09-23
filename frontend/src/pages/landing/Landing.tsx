@@ -71,10 +71,10 @@ const Landing = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
           >
-            Aab-O-Hawa
+            Awareon
           </motion.h1>
           <p className="text-subhead text-center max-w-lg">
-            ✨Preserving Nature, Protecting Tomorrow✨
+            See it. Report it. Resolve it
           </p>
 
           {/* Optional manual controls */}
