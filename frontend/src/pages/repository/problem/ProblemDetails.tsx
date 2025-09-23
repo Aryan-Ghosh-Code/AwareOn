@@ -47,8 +47,8 @@ const ProblemDetails = () => {
   const getStatusClass = (status: string) => {
     const lower = status.toLowerCase();
     if (lower === "pending") return "text-yellow-400 font-bold";
-    if (lower === "done") return "text-green-400 font-bold";
-    if (lower === "rejected") return "text-red-400 font-bold";
+    if (lower === "ongoing") return "text-blue-400 font-bold";
+    if (lower === "solved") return "text-green-400 font-bold";
     return "text-gray-300";
   };
 
@@ -75,20 +75,57 @@ const ProblemDetails = () => {
 
       <div className="px-8 md:px-16 pt-20 w-full lg:w-[90%] mx-auto pb-6">
         <div className="mb-8">
-          <ProblemInfo
-            problem={problem}
-          />
+          <ProblemInfo problem={problem} />
         </div>
 
         {/* Main Content Grid */}
-        <ProblemContent
-          problem={problem}
-        />
+        <ProblemContent problem={problem} />
+
+        {/* New schema fields */}
+        <section className="rounded-2xl bg-[#242038] p-6 shadow-lg mb-6">
+          <h2 className="text-xl font-semibold text-gray-100 mb-2">Additional Info</h2>
+          <p className="text-gray-300"><span className="font-semibold">Ministry:</span> {problem.ministry}</p>
+          <p className="text-gray-300"><span className="font-semibold">Alert Level:</span> {problem.alertLevel}</p>
+          <p className="text-gray-300"><span className="font-semibold">Confidence:</span> {problem.confidence}%</p>
+          {problem.description && (
+            <p className="text-gray-300 mt-2"><span className="font-semibold">Description:</span> {problem.description}</p>
+          )}
+        </section>
 
         {/* Actionable Insights */}
-        <ActionableInsights
-          actionableInsights={problem.actionableInsights}
-        />
+        <ActionableInsights actionableInsights={problem.actionableInsights} />
+
+         {/* Short Term Impacts */}
+        <section className="mt-8 rounded-2xl bg-[#242038] p-6 shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-100 border-b border-gray-700 pb-2 mb-3">
+            Short Term Impacts
+          </h2>
+          {Array.isArray(problem.shortTermImpacts) && problem.shortTermImpacts.length > 0 ? (
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
+              {problem.shortTermImpacts.map((impact, idx) => (
+                <li key={idx}>{impact}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400">No short term impacts available.</p>
+          )}
+        </section>
+
+        {/* Long Term Impacts */}
+        <section className="mt-8 rounded-2xl bg-[#242038] p-6 shadow-lg">
+          <h2 className="text-2xl font-semibold text-gray-100 border-b border-gray-700 pb-2 mb-3">
+            Long Term Impacts
+          </h2>
+          {Array.isArray(problem.longTermImpacts) && problem.longTermImpacts.length > 0 ? (
+            <ul className="list-disc list-inside space-y-2 text-gray-300">
+              {problem.longTermImpacts.map((impact, idx) => (
+                <li key={idx}>{impact}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-400">No long term impacts available.</p>
+          )}
+        </section>
 
         {/* Reports */}
         <section className="mt-8 rounded-2xl bg-[#242038] p-6 shadow-lg">
@@ -99,9 +136,7 @@ const ProblemDetails = () => {
           {Array.isArray(problem.reports) && problem.reports.length > 0 ? (
             <ul className="divide-y divide-gray-700 rounded-xl overflow-hidden border border-gray-700">
               {(problem.reports as ReportPreview[]).map((report: ReportPreview) => (
-                <ReportPreviewCard
-                  report={report}
-                />
+                <ReportPreviewCard key={report._id} report={report} />
               ))}
             </ul>
           ) : (
@@ -109,27 +144,8 @@ const ProblemDetails = () => {
           )}
         </section>
 
-        {/* NGOs + Govt + Status */}
-        <section className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="rounded-2xl bg-[#242038] p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-100 border-b border-gray-700 pb-2 mb-3">
-              NGOs Working
-            </h2>
-            {problem.NGOWorking.length > 0 ? (
-              <ul className="divide-y divide-gray-700 rounded-xl overflow-hidden border border-gray-700">
-                {problem.NGOWorking.map((ngo, idx) => (
-                  <WorkingEntityPreviewCard
-                    entity={ngo}
-                    idx={idx}
-                    defaultImage="/NGO.png"
-                  />
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-400">No NGOs reported yet.</p>
-            )}
-          </div>
-
+        {/* Govt + Status */}
+        <section className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="rounded-2xl bg-[#242038] p-6 shadow-lg">
             <h2 className="text-2xl font-semibold text-gray-100 border-b border-gray-700 pb-2 mb-3">
               Govt Bodies Working
@@ -138,6 +154,7 @@ const ProblemDetails = () => {
               <ul className="divide-y divide-gray-700 rounded-xl overflow-hidden border border-gray-700">
                 {problem.GovtWorking.map((gov, idx) => (
                   <WorkingEntityPreviewCard
+                    key={gov._id || idx}
                     entity={gov}
                     idx={idx}
                     defaultImage="/Govt.png"
@@ -179,8 +196,8 @@ const ProblemDetails = () => {
 
           {Array.isArray(problem.comments) && problem.comments.length > 0 ? (
             <ul className="space-y-4">
-              {problem.comments.map((c) => (
-                <li key={c._id} className="bg-gray-900/70 p-3 rounded-lg border border-gray-700">
+              {problem.comments.map((c, idx) => (
+                <li key={c._id || idx} className="bg-gray-900/70 p-3 rounded-lg border border-gray-700">
                   <p className="text-sm text-gray-300 font-semibold">{c.name}</p>
                   <p className="text-gray-200 mt-1">{c.message}</p>
                 </li>
@@ -198,7 +215,7 @@ const ProblemDetails = () => {
                   setShowCommentModal(true);
                   setCommentForm({ message: "" });
                 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-[#9BA7C0]  hover:bg-[#758BFD] text-[#00241B] px-4 py-2 font-medium transition hover:scale-105 shadow-lg  cursor-pointer text-sm"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#9BA7C0] hover:bg-[#758BFD] text-[#00241B] px-4 py-2 font-medium transition hover:scale-105 shadow-lg cursor-pointer text-sm"
               >
                 <span>➕</span>
                 Add Comment

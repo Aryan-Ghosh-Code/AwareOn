@@ -24,14 +24,12 @@ const ProblemCard = ({problem}: ProblemCardProps) => {
 					</h3>
 					<p className="text-sm text-gray-300">
 						<span className="font-semibold text-[#6290C3]">SDG:</span>
-						{problem.SDG.map((sdg: string, index: number) => (
-							<span
-								key={index}
+						<span
+								
 								className="ml-2 px-2 py-1 bg-[#6290C3] rounded-lg text-xs font-semibold text-[#242038] inline-block"
 							>
-								{sdg}
+								{problem.ministry}
 							</span>
-						))}
 					</p>
 					<p className="text-sm text-gray-300">
 						<span className="font-semibold">Alert Level:</span>{" "}

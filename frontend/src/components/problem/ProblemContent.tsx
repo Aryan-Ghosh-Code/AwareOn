@@ -25,16 +25,12 @@ const ProblemContent = ({ problem }: ProblemProps) => {
 					<div>
 						<div className="flex items-center gap-2 mb-3">
 							<FaLeaf className="w-5 h-5 text-emerald-400" />
-							<p className="text-lg font-semibold text-gray-200">SDGs Targeted</p>
+							<p className="text-lg font-semibold text-gray-200"> Ministry </p>
 						</div>
 						<div className="flex flex-wrap gap-2">
-							{problem.SDG.map((sdg: string) => (
-								<div key={sdg} className="group">
-									<span className="px-4 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-sm font-medium hover:bg-emerald-600/30 transition-colors cursor-pointer">
-										SDG {sdg}
+							<span className="px-4 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-sm font-medium hover:bg-emerald-600/30 transition-colors cursor-pointer">
+										 {problem.ministry}
 									</span>
-								</div>
-							))}
 						</div>
 					</div>
 				</div>
