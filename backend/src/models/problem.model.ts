@@ -82,6 +82,17 @@ const ProblemSchema = new mongoose.Schema({
             }
         }
     ],
+    upvotes: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    problemStatus: {
+        type: String,
+        required: true,
+        enum: ["halted", "verified"],
+        default: "halted"
+    },
     statusForUser: {
         type: String,
         required: true,

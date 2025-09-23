@@ -251,26 +251,19 @@ const ProblemUpload = () => {
 
                   {/* SDGs */}
                   <div className="mt-4">
-                    <p className="text-sm text-gray-300 mb-2">SDG Tags</p>
+                    <p className="text-base font-seminbold text-gray-100 mb-2">SDG Tags</p>
                     <div className="flex flex-wrap gap-2">
-                      {(prediction.SDG || [])
-                        .map((sdg: string, i: number) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 rounded-lg bg-[#6290C3] text-[#242038] text-sm font-medium"
-                          >
-                            SDG {sdg}
-                          </span>
-                        ))}
-                      {!prediction.SDG && (
-                        <span className="text-gray-400 text-sm">—</span>
-                      )}
+                      <span
+                        className="px-3 py-1 rounded-lg bg-[#6290C3] text-[#242038] text-sm font-medium"
+                      >
+                        {prediction.ministry}
+                      </span>
                     </div>
                   </div>
 
                   {/* Actionable Insights */}
                   <div className="mt-4">
-                    <p className="text-sm text-gray-300 mb-2">Actionable Insights</p>
+                    <p className="text-base font-seminbold text-gray-100 mb-2">Actionable Insights</p>
                     {Array.isArray(prediction.actionableInsights) &&
                       prediction.actionableInsights.length > 0 ? (
                       <ul className="list-disc list-inside space-y-1 text-gray-200">
@@ -280,6 +273,34 @@ const ProblemUpload = () => {
                       </ul>
                     ) : (
                       <p className="text-gray-400 text-sm">No insights provided.</p>
+                    )}
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="text-base font-seminbold text-gray-100 mb-2">Short-term Impacts</p>
+                    {Array.isArray(prediction.shortTermImpacts) &&
+                      prediction.shortTermImpacts.length > 0 ? (
+                      <ul className="list-disc list-inside space-y-1 text-gray-200">
+                        {prediction.shortTermImpacts.map((tip: string, idx: number) => (
+                          <li key={idx}>{tip}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-400 text-sm">No short term impacts available.</p>
+                    )}
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="text-base font-seminbold text-gray-100 mb-2">Long-term Impacts</p>
+                    {Array.isArray(prediction.longTermImpacts) &&
+                      prediction.longTermImpacts.length > 0 ? (
+                      <ul className="list-disc list-inside space-y-1 text-gray-200">
+                        {prediction.longTermImpacts.map((tip: string, idx: number) => (
+                          <li key={idx}>{tip}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-gray-400 text-sm">No long term impacts available.</p>
                     )}
                   </div>
                 </div>
