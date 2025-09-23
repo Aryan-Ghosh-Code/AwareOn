@@ -17,7 +17,6 @@ import Spinner from '../../components/Spinner';
 import ProblemDistribution from '../../components/charts/ProblemDistribution';
 import ProblemStatus from '../../components/charts/ProblemStatus';
 import ProblemResolutions from '../../components/charts/ProblemResolutions';
-import FundsRaised from '../../components/charts/FundsRaised';
 import TimelineData from '../../components/charts/TimelineData';
 import type { StatsProps } from '../../types';
 
@@ -56,10 +55,16 @@ const ProgressTracker = () => {
 
 	const data = {
 		totalProblems: stats.problems || 0,
-		problemsBySDG: {
-			sdg13: stats.problems13 || 0,
-			sdg14: stats.problems14 || 0,
-			sdg15: stats.problems15 || 0
+		problemsByMinistry: {
+			roadTransport: stats.roadTransportProblems || 0,
+			urbanDevelopment: stats.urbanDevelopmentProblems || 0,
+			trafficPolice: stats.trafficPoliceProblems || 0,
+			transport: stats.transportProblems || 0,
+			forest: stats.forestProblems || 0,
+			environment: stats.environmentProblems || 0,
+			municipalHealth: stats.municipalHealthProblems || 0,
+			publicWorks: stats.publicWorksProblems || 0,
+			powerSupply: stats.powerSupplyProblems || 0
 		},
 		problemStatus: {
 			pending: stats.pendingProblems || 0,
@@ -70,11 +75,6 @@ const ProgressTracker = () => {
 		resolvedComparison: {
 			byUsers: stats.resolvedForUser || 0,
 			byGovt: stats.resolvedForGovt || 0
-		},
-		fundsRaised: {
-			sdg13: stats.funds13 || 0,
-			sdg14: stats.funds14 || 0,
-			sdg15: stats.funds15 || 0
 		},
 		reportedProblems: {
 			oneHour: stats.problemsReported?.oneHourAgo || 0,
@@ -95,12 +95,12 @@ const ProgressTracker = () => {
 				<div className="w-full mx-auto">
 					{/* Header */}
 					<div className="mb-8 flex flex-col items-center justify-center w-full gap-2">
-						<h1 className="text-4xl font-bold text-gray-100 text-center">SDG Monitoring Dashboard</h1>
-						<p className="text-gray-300 text-lg italic  text-center">Climate Action, Life Below Water & Life on Land</p>
+						<h1 className="text-4xl font-bold text-gray-100 text-center">Ministry Monitoring Dashboard</h1>
+						<p className="text-gray-300 text-lg italic  text-center">Environmental and Infrastructure Monitoring</p>
 					</div>
 
 					{/* Metrics */}
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+					<div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
 						<div className="bg-white rounded-lg shadow-md p-6 text-center">
 							<h3>Total Problems</h3>
 							<p className="text-3xl font-bold">{data.totalProblems}</p>
@@ -112,12 +112,6 @@ const ProgressTracker = () => {
 						<div className="bg-white rounded-lg shadow-md p-6 text-center">
 							<h3>Total Resolved</h3>
 							<p className="text-3xl font-bold text-green-600">{data.problemStatus.resolved}</p>
-						</div>
-						<div className="bg-white rounded-lg shadow-md p-6 text-center">
-							<h3>Total Funds</h3>
-							<p className="text-3xl font-bold text-purple-600">
-								₹{(data.fundsRaised.sdg13 + data.fundsRaised.sdg14 + data.fundsRaised.sdg15).toLocaleString()}
-							</p>
 						</div>
 					</div>
 
@@ -132,10 +126,6 @@ const ProgressTracker = () => {
 						/>
 
 						<ProblemResolutions
-							data={data}
-						/>
-
-						<FundsRaised
 							data={data}
 						/>
 
