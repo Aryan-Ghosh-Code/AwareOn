@@ -1,34 +1,45 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import AppNavbar from "../../components/navbars/AppNavbar";
 
-type OnboardForm = {
-  ifsc: string;
-  account_number: string;
+type Department = {
+  name: string;
+  contact: string;
 };
+
+type OnboardForm = {
+  departmentName: string;
+  phoneNumber: string;
+};
+
+const departmentOptions = [
+  "Ministry of Road Transport and Highways",
+  "Urban Development Department",
+  "Traffic Police Department",
+  "Transport Department",
+  "Forest Department",
+  "Ministry of Environment",
+  "Municipal Health Department",
+  "Public Works Department (PWD)",
+  "Power Supply Department",
+  "Municipal Health Department"
+];
 
 const OnBoard = () => {
   const [form, setForm] = useState<OnboardForm>({
-    ifsc: "",
-    account_number: "",
+    departmentName: "",
+    phoneNumber: "",
   });
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    if (name === "ifsc") {
-      // IFSC: uppercase, strip spaces, max 11 chars
-      const v = value.toUpperCase().replace(/\s+/g, "").slice(0, 11);
-      setForm((p) => ({ ...p, ifsc: v }));
-      return;
-    }
-
-    if (name === "account_number") {
-      // Account number: digits only, up to 18-20 typical (you can adjust)
-      const v = value.replace(/[^\d]/g, "").slice(0, 20);
-      setForm((p) => ({ ...p, account_number: v }));
+    if (name === "phoneNumber") {
+      // Phone number: digits only, exactly 10 digits
+      const v = value.replace(/[^\d]/g, "").slice(0, 10);
+      setForm((p) => ({ ...p, phoneNumber: v }));
       return;
     }
 
@@ -36,13 +47,11 @@ const OnBoard = () => {
   };
 
   const validate = () => {
-    // Basic IFSC format: 4 letters + 0 + 6 alphanumerics
-    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
-    if (!ifscRegex.test(form.ifsc)) {
-      return "Please enter a valid IFSC (e.g., ICIC0005689)";
+    if (!form.departmentName) {
+      return "Please select a department name";
     }
-    if (form.account_number.length < 6) {
-      return "Please enter a valid account number (at least 6 digits)";
+    if (form.phoneNumber.length !== 10) {
+      return "Please enter a valid phone number (exactly 10 digits)";
     }
     return null;
   };
@@ -57,8 +66,13 @@ const OnBoard = () => {
 
     try {
       setSubmitting(true);
-      console.log("Submitting onboard form:", form);
-      toast.success("Onboarding info captured (stub). Wire this to your API.");
+      const newDepartment: Department = {
+        name: form.departmentName,
+        contact: form.phoneNumber,
+      };
+      setDepartments((prev) => [...prev, newDepartment]);
+      setForm({ departmentName: "", phoneNumber: "" });
+      toast.success("Department added successfully!");
     } catch (error: any) {
       toast.error(error?.message || "Something went wrong");
     } finally {
@@ -66,72 +80,108 @@ const OnBoard = () => {
     }
   };
 
+  const removeDepartment = (index: number) => {
+    setDepartments((prev) => prev.filter((_, i) => i !== index));
+    toast.success("Department removed successfully!");
+  };
+
   return (
     <>
       <AppNavbar />
-      <main className="px-6 md:px-12 pt-24 max-w-xl mx-auto">
+      <main className="px-6 md:px-12 pt-24 max-w-7xl mx-auto">
         <header className="mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-100 text-center">
             On Board
           </h1>
           <p className="text-subhead text-center mt-1">
-            Provide banking details to get started
+            Add department details to get started
           </p>
         </header>
 
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl bg-[#1B2432] border border-[#2298b9]/40 shadow-lg p-6"
-        >
-          {/* IFSC */}
-          <div className="mb-4">
-            <label className="block text-sm text-gray-300 mb-1" htmlFor="ifsc">
-              IFSC Code
-            </label>
-            <input
-              id="ifsc"
-              name="ifsc"
-              value={form.ifsc}
-              onChange={onChange}
-              placeholder="ICIC0005689"
-              autoCapitalize="characters"
-              className="w-full rounded-xl bg-[#242038] border border-[#2298b9]/40 focus:border-[#2298b9] focus:ring-[#2298b9] text-gray-100 p-3 outline-none"
-            />
-            <p className="mt-1 text-xs text-gray-400">
-              Format: 4 letters + 0 + 6 alphanumerics (e.g., ICIC0005689)
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Side: Form */}
+          <div className="rounded-2xl bg-[#1B2432] border border-[#2298b9]/40 shadow-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-100 mb-4">Add Department</h2>
+            <form onSubmit={handleSubmit}>
+              {/* Department Name Dropdown */}
+              <div className="mb-4">
+                <label className="block text-sm text-gray-300 mb-1" htmlFor="departmentName">
+                  Department Name
+                </label>
+                <select
+                  id="departmentName"
+                  name="departmentName"
+                  value={form.departmentName}
+                  onChange={onChange}
+                  className="w-full rounded-xl bg-[#242038] border border-[#2298b9]/40 focus:border-[#2298b9] focus:ring-[#2298b9] text-gray-100 p-3 outline-none"
+                >
+                  <option value="">Select a department</option>
+                  {departmentOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Phone Number */}
+              <div className="mb-6">
+                <label className="block text-sm text-gray-300 mb-1" htmlFor="phoneNumber">
+                  Department Phone Number
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={form.phoneNumber}
+                  onChange={onChange}
+                  inputMode="numeric"
+                  placeholder="1234567890"
+                  className="w-full rounded-xl bg-[#242038] border border-[#2298b9]/40 focus:border-[#2298b9] focus:ring-[#2298b9] text-gray-100 p-3 outline-none"
+                />
+                <p className="mt-1 text-xs text-gray-400">
+                  Enter exactly 10 digits
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full rounded-xl px-6 py-3 text-white font-semibold bg-[#2298b9] hover:bg-[#1f89a7] active:bg-[#1c7b95] shadow-lg shadow-[#2298b9]/30 transition-transform hover:scale-[1.02] disabled:opacity-60"
+              >
+                {submitting ? "Adding..." : "Add Department"}
+              </button>
+            </form>
           </div>
 
-          {/* Account Number */}
-          <div className="mb-6">
-            <label className="block text-sm text-gray-300 mb-1" htmlFor="account_number">
-              Account Number
-            </label>
-            <input
-              id="account_number"
-              name="account_number"
-              value={form.account_number}
-              onChange={onChange}
-              inputMode="numeric"
-              placeholder="987654321881"
-              className="w-full rounded-xl bg-[#242038] border border-[#2298b9]/40 focus:border-[#2298b9] focus:ring-[#2298b9] text-gray-100 p-3 outline-none"
-            />
+          {/* Right Side: Registered Departments */}
+          <div className="rounded-2xl bg-[#1B2432] border border-[#2298b9]/40 shadow-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-100 mb-4">Registered Departments</h2>
+            {departments.length === 0 ? (
+              <p className="text-gray-400">No departments added yet.</p>
+            ) : (
+              <div className="space-y-4">
+                {departments.map((dept, index) => (
+                  <div key={index} className="bg-[#242038] rounded-xl p-4 border border-[#2298b9]/20">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-gray-100 font-medium">{dept.name}</h3>
+                        <p className="text-gray-300 text-sm">Phone: {dept.contact}</p>
+                      </div>
+                      <button
+                        onClick={() => removeDepartment(index)}
+                        className="text-red-400 hover:text-red-300 text-sm"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+        </div>
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-xl px-6 py-3 text-white font-semibold bg-[#2298b9] hover:bg-[#1f89a7] active:bg-[#1c7b95] shadow-lg shadow-[#2298b9]/30 transition-transform hover:scale-[1.02] disabled:opacity-60"
-          >
-            {submitting ? "Submitting..." : "Submit"}
-          </button>
 
-          <div className="mt-4 text-center">
-            <Link to="/repository/problem" className="text-sm text-[#61C9A8] hover:underline">
-              ← Back to Repository
-            </Link>
-          </div>
-        </form>
       </main>
     </>
   );
