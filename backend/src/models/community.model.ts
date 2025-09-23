@@ -17,7 +17,7 @@ const CommunitySchema = new mongoose.Schema(
                 memberModel: {
                     type: String,
                     required: true,
-                    enum: ["NGO", "Govt", "User"],
+                    enum: ["Govt", "User"],
                 },
             },
         ],
@@ -31,7 +31,7 @@ const CommunitySchema = new mongoose.Schema(
                 senderModel: {
                     type: String,
                     required: true,
-                    enum: ["NGO", "Govt", "User"],
+                    enum: ["Govt", "User"],
                 },
                 message: {
                     type: String,

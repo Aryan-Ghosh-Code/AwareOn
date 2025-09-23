@@ -29,8 +29,7 @@ const ProblemSchema = new mongoose.Schema({
         required: true
     },
     SDG: {
-        type: Array,
-        default: [],
+        type: String,
         required: true
     },
     decription: {
@@ -49,13 +48,14 @@ const ProblemSchema = new mongoose.Schema({
         type: Array,
         required: true
     },
-    NGOWorking: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "NGO",
-            required: true
-        }
-    ],
+    shortTermImpacts: {
+        type: Array,
+        required: true
+    },
+    longTermImpacts: {
+        type: Array,
+        required: true
+    },
     GovtWorking: [
         {
             type: mongoose.Schema.Types.ObjectId,

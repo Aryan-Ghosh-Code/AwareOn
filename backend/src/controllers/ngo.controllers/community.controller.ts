@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Community from "../../models/community.model";
 import { getReceiverSocketId, io } from "../../socket/socket";
 import NGO from "../../models/ngo.model";
-import SDGCommunity from "../../models/sdgCommunity.model";
+import SDGCommunity from "../../models/openCommunity.model";
 
 export const sendMessageToCommunity = async (req: Request, res: Response) => {
     try {

@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
 
-const SDGCommunitySchema = new mongoose.Schema({
-    SDG: {
+const OpenCommunitySchema = new mongoose.Schema({
+    civicIssue: {
         type: String,
-        enum: ["SDG 13", "SDG 14", "SDG 15"],
+        enum: [
+            "Waste Management & Sanitation",
+            "Roads & Traffic Management",
+            "Water Supply & Drainage",
+            "Public Health & Safety",
+            "Parks & Urban Green Spaces",
+            "Electricity & Street Lighting",
+            "Noise & Air Pollution"
+        ],
         required: true,
     },
     members: [
@@ -16,7 +24,7 @@ const SDGCommunitySchema = new mongoose.Schema({
             memberModel: {
                 type: String,
                 required: true,
-                enum: ["NGO", "Govt", "User"],
+                enum: ["Govt", "User"],
             },
         },
     ],
@@ -30,7 +38,7 @@ const SDGCommunitySchema = new mongoose.Schema({
             senderModel: {
                 type: String,
                 required: true,
-                enum: ["NGO", "Govt", "User"],
+                enum: ["Govt", "User"],
             },
             message: {
                 type: String,
@@ -44,5 +52,5 @@ const SDGCommunitySchema = new mongoose.Schema({
     ],
 }, { timestamps: true });
 
-const SDGCommunity = mongoose.model("SDGCommunity", SDGCommunitySchema);
-export default SDGCommunity;
+const OpenCommunity = mongoose.model("OpenCommunity", OpenCommunitySchema);
+export default OpenCommunity;

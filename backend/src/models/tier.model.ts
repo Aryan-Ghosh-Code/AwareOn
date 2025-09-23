@@ -16,7 +16,7 @@ const TierSchema = new mongoose.Schema({
             memberModel: {
                 type: String,
                 required: true,
-                enum: ["User", "NGO", "Govt"]
+                enum: ["User", "Govt"]
             }
         }
     ]

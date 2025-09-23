@@ -4,22 +4,12 @@ const ReportSchema = new mongoose.Schema({
     reporter: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        refPath: "reporterModel"
-    },
-    reporterModel: {
-        type: String,
-        required: true,
-        enum: ["NGO", "Govt", "User"]
+        ref: "Govt"
     },
     intentId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        refPath: "intentModel"
-    },
-    intentModel: {
-        type: String,
-        required: true,
-        enum: ["Project", "Problem"]
+        ref: "Problem"
     },
     timeline: {
         startDate: {

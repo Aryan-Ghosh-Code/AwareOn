@@ -9,7 +9,7 @@ const OnboardingSchema = new mongoose.Schema({
     customerModel: {
         type: String,
         required: true,
-        enum: ["NGO", "Govt"],
+        enum: ["Govt"],
     },
     contactId: {
         type: String,

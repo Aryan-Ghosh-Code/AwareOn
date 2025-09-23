@@ -33,13 +33,17 @@ const GovtSchema = new mongoose.Schema({
     profilePic: {
         type: String
     },
-    projectRepoIds: [
+    activeProblems: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Project_Repository"
+            ref: "Problem"
         }
     ],
     jurisdiction: {
+        town: {
+            type: String,
+            required: true
+        },
         city: {
             type: String,
             required: true
@@ -53,6 +57,20 @@ const GovtSchema = new mongoose.Schema({
             required: true
         }
     },
+    departments: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            contact: {
+                type: String,
+                min: 10,
+                max: 10,
+                required: true
+            }
+        }
+    ],
     tier: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Tier",

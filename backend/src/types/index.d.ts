@@ -47,6 +47,7 @@ export interface GovtSignupBody {
     email: string;
     password: string;
     mobileNo: string;
+    town: string;
     city: string;
     state: string;
     pincode: string;
@@ -102,6 +103,12 @@ export interface NGO {
     openCommunity: Types.ObjectId[];
 }
 
+export interface Departments {
+    _id: Types.ObjectId;
+    name: string;
+    contact: string;
+}
+
 export interface Govt {
     _id: Types.ObjectId;
     role: string;
@@ -111,12 +118,14 @@ export interface Govt {
     password: string;
     mobileNo: string;
     profilePic?: string | null;
-    projectRepoIds: Types.ObjectId[];
+    activeProblems: Types.ObjectId[];
     jurisdiction?: {
+        town: string;
         city: string;
         state: string;
         pincode: string
     } | null;
+    departments: Departments[];
     tier: Types.ObjectId;
     points: number;
     community: Types.ObjectId[];
@@ -126,14 +135,13 @@ export interface Govt {
 declare module "express" {
     export interface Request {
         user?: User;
-        ngo?: NGO;
         govt?: Govt;
     }
 }
 
 export interface DecodedToken extends JwtPayload {
     userId: string;
-    role: "user" | "ngo" | "govt";
+    role: "user" | "govt";
 }
 
 export interface ProjectCreationProps {
@@ -228,7 +236,7 @@ export interface ModelResult {
 }
 
 export interface ReportGenerationProps {
-    type: "Project" | "Problem";
+    type: "Problem";
     startDate: string;
     endDate: string;
     actions: string[];
@@ -237,6 +245,6 @@ export interface ReportGenerationProps {
 }
 
 export interface CommentProps {
-    type: "Project" | "Problem";
+    type: "Problem";
     message: string;
 }

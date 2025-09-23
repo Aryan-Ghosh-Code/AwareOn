@@ -15,6 +15,7 @@ export const signup = async (req: Request, res: Response) => {
 			email,
 			password,
 			mobileNo,
+			town,
 			city,
 			state,
 			pincode
@@ -30,6 +31,10 @@ export const signup = async (req: Request, res: Response) => {
 		}
 		if (mobileNo.length !== 10) {
 			res.status(400).json({ error: "Enter a valid Mobile Number" });
+			return;
+		}
+		if (!town) {
+			res.status(400).json({ error: "Town is required" });
 			return;
 		}
 		if (!city) {
@@ -80,6 +85,7 @@ export const signup = async (req: Request, res: Response) => {
 			password: passwordHash,
 			mobileNo,
 			jurisdiction: {
+				town,
 				city,
 				state,
 				pincode

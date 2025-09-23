@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import Project from "../../models/project.model";
 import Problem from "../../models/problem.model";
 import Report from "../../models/report.model";
 import { ReportGenerationProps } from "../../types";
@@ -16,12 +15,7 @@ export const generateReport = async (req: Request, res: Response) => {
             articulateProof
         }: ReportGenerationProps = req.body;
 
-        let intent;
-        if (type === "Project") {
-            intent = await Project.findById(id);
-        } else {
-            intent = await Problem.findById(id);
-        }
+        const intent = await Problem.findById(id);
 
         const newReport = new Report({
             reporter: req.govt?._id,
@@ -40,20 +34,12 @@ export const generateReport = async (req: Request, res: Response) => {
         if (newReport) {
             await newReport.save();
 
-            if (type === "Problem") {
-                const problemDoc = intent as typeof Problem.prototype;
-                if (!problemDoc.GovtWorking.includes(req.govt?._id)) {
-                    problemDoc.GovtWorking.push(req.govt!._id);
-                }
-                problemDoc.reports.push(newReport._id);
-                await problemDoc.save();
+            const problemDoc = intent as typeof Problem.prototype;
+            if (!problemDoc.GovtWorking.includes(req.govt?._id)) {
+                problemDoc.GovtWorking.push(req.govt!._id);
             }
-
-            if (type === "Project") {
-                const projectDoc = intent as typeof Project.prototype;
-                projectDoc.reports.push(newReport._id);
-                await projectDoc.save();
-            }
+            problemDoc.reports.push(newReport._id);
+            await problemDoc.save();
 
             res.status(201).json(newReport);
         }
