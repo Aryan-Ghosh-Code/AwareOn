@@ -32,7 +32,7 @@ export const postProblem = async (req: Request, res: Response) => {
             return;
         }
 
-        const response = await fetch(`${process.env.MODEL_URL}/predict`, {
+        /*const response = await fetch(`${process.env.MODEL_URL}/predict`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const postProblem = async (req: Request, res: Response) => {
         if (!modelResult) {
             res.status(400).json({ error: "Error in uploading Problem. Try again later" });
             return;
-        }
+        }*/
 
         const newProblem = new Problem({
             owner: id,
@@ -58,12 +58,26 @@ export const postProblem = async (req: Request, res: Response) => {
                 lon,
                 address
             },
-            problem: modelResult.problem,
-            SDG: modelResult.sdgs,
+            problem: "Littering Garbage",
+            ministry: "Ministry of Health & Wellbeing",
             description,
             alertLevel: "high",
-            confidence: modelResult.ConfidenceScore,
-            actionableInsights: modelResult.actionableInsights
+            confidence: 92.88,
+            actionableInsights: [
+                "Increase frequency of waste collection",
+                "Install more dustbins and segregation points",
+                "Promote public awareness campaigns"
+            ],
+            shortTermImpacts: [
+                "Bad odor and visual pollution",
+                "Spread of diseases",
+                "Rodent and stray animal increase"
+            ],
+            longTermImpacts: [
+                "Environmental degradation",
+                "Public health crises",
+                "Tourism and city image decline"
+            ]
         });
 
         if (newProblem) {
@@ -76,7 +90,7 @@ export const postProblem = async (req: Request, res: Response) => {
 
             await Promise.all([newProblem.save(), user.save()]);
 
-            const ngos = await NGO.find({
+            /*const ngos = await NGO.find({
                 SDG: { $in: newProblem.SDG }
             });
 
@@ -91,7 +105,7 @@ export const postProblem = async (req: Request, res: Response) => {
                         messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID
                     });
                 }
-            }
+            }*/
 
             res.status(201).json(newProblem);
         } else {
@@ -124,10 +138,6 @@ export const viewProblemById = async (req: Request, res: Response) => {
         const problem = await Problem.findById(id)
             .populate({
                 path: "owner",
-                select: "name profilePic email"
-            })
-            .populate({
-                path: "NGOWorking",
                 select: "name profilePic email"
             })
             .populate({

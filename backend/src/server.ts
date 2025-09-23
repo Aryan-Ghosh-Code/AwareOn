@@ -35,6 +35,7 @@ import govtProblemRoutes from "./routes/govt.routes/problem.routes";
 import govtPaymentRoutes from "./routes/govt.routes/payment.routes";
 import govtReportRoutes from "./routes/govt.routes/report.routes";
 import govtCommunityRoutes from "./routes/govt.routes/community.routes";
+import govtOnboardingRoutes from "./routes/govt.routes/onboarding.routes";
 
 const PORT = process.env.PORT || 3000;
 
@@ -96,6 +97,7 @@ app.use('/api/v1/govt/problem', govtProblemRoutes);
 app.use('/api/v1/govt/payments', govtPaymentRoutes);
 app.use('/api/v1/govt/reports', govtReportRoutes);
 app.use('/api/v1/govt/community', govtCommunityRoutes);
+app.use('/api/v1/govt/onboard', govtOnboardingRoutes);
 
 app.use("/api/v1/progress-tracker", progressTrackerRoutes);
 

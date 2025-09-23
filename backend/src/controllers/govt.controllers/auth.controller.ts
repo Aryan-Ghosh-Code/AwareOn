@@ -54,7 +54,6 @@ export const signup = async (req: Request, res: Response) => {
 			return;
 		}
 
-
 		const sameGovt = await Govt.findOne({ $or: [{ email }, { mobileNo }] });
 		if (sameGovt) {
 			res.status(400).json({

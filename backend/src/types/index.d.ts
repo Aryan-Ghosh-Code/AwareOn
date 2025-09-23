@@ -248,3 +248,8 @@ export interface CommentProps {
     type: "Problem";
     message: string;
 }
+
+export interface OnboardingMinistryProps {
+    name: string;
+    contact: string;
+}
