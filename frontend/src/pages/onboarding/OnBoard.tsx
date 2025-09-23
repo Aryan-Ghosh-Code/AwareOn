@@ -1,94 +1,59 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import AppNavbar from "../../components/navbars/AppNavbar";
-
-type Department = {
-  name: string;
-  contact: string;
-};
-
-type OnboardForm = {
-  departmentName: string;
-  phoneNumber: string;
-};
-
-const departmentOptions = [
-  "Ministry of Road Transport and Highways",
-  "Urban Development Department",
-  "Traffic Police Department",
-  "Transport Department",
-  "Forest Department",
-  "Ministry of Environment",
-  "Municipal Health Department",
-  "Public Works Department (PWD)",
-  "Power Supply Department",
-  "Municipal Health Department"
-];
+import type { DepartmentProps } from "../../types";
+import { departmentOptions } from "../../constants/departments";
+import useGetMyMinistries from "../../hooks/useGetMyMinistries";
+import useRegisterMinistry from "../../hooks/useRegisterMinistry";
+import Spinner from "../../components/Spinner";
 
 const OnBoard = () => {
-  const [form, setForm] = useState<OnboardForm>({
-    departmentName: "",
-    phoneNumber: "",
+  const [form, setForm] = useState<DepartmentProps>({
+    name: "",
+    contact: "",
   });
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [submitting, setSubmitting] = useState(false);
+  const [departments, setDepartments] = useState<DepartmentProps[] | null>(null);
+  const { loading, getMyMinistries } = useGetMyMinistries();
+  const { loading: registering, registerMinistry } = useRegisterMinistry();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
-    if (name === "phoneNumber") {
-      // Phone number: digits only, exactly 10 digits
+    if (name === "contact") {
       const v = value.replace(/[^\d]/g, "").slice(0, 10);
-      setForm((p) => ({ ...p, phoneNumber: v }));
+      setForm((p) => ({ ...p, contact: v }));
       return;
     }
 
     setForm((p) => ({ ...p, [name]: value }));
   };
 
-  const validate = () => {
-    if (!form.departmentName) {
-      return "Please select a department name";
-    }
-    if (form.phoneNumber.length !== 10) {
-      return "Please enter a valid phone number (exactly 10 digits)";
-    }
-    return null;
-  };
+  const fetchMinistries = async () => {
+    const data = await getMyMinistries();
+    setDepartments(data);
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const err = validate();
-    if (err) {
-      toast.error(err);
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-      const newDepartment: Department = {
-        name: form.departmentName,
-        contact: form.phoneNumber,
-      };
-      setDepartments((prev) => [...prev, newDepartment]);
-      setForm({ departmentName: "", phoneNumber: "" });
-      toast.success("Department added successfully!");
-    } catch (error: any) {
-      toast.error(error?.message || "Something went wrong");
-    } finally {
-      setSubmitting(false);
-    }
+    const data = await registerMinistry(form);
+    setDepartments(data);
   };
 
-  const removeDepartment = (index: number) => {
-    setDepartments((prev) => prev.filter((_, i) => i !== index));
-    toast.success("Department removed successfully!");
-  };
+  useEffect(() => {
+    fetchMinistries();
+  }, []);
+
+  if (loading || !departments) {
+    return (
+      <div className="flex items-center justify-center h-screen text-white p-6">
+        <Spinner size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
       <AppNavbar />
-      <main className="px-6 md:px-12 pt-24 max-w-7xl mx-auto">
+      <main className="px-6 md:px-12 pt-24 max-w-7xl mx-auto pb-8">
         <header className="mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-100 text-center">
             On Board
@@ -103,15 +68,14 @@ const OnBoard = () => {
           <div className="rounded-2xl bg-[#1B2432] border border-[#2298b9]/40 shadow-lg p-6">
             <h2 className="text-xl font-semibold text-gray-100 mb-4">Add Department</h2>
             <form onSubmit={handleSubmit}>
-              {/* Department Name Dropdown */}
               <div className="mb-4">
                 <label className="block text-sm text-gray-300 mb-1" htmlFor="departmentName">
                   Department Name
                 </label>
                 <select
-                  id="departmentName"
-                  name="departmentName"
-                  value={form.departmentName}
+                  id="name"
+                  name="name"
+                  value={form.name}
                   onChange={onChange}
                   className="w-full rounded-xl bg-[#242038] border border-[#2298b9]/40 focus:border-[#2298b9] focus:ring-[#2298b9] text-gray-100 p-3 outline-none"
                 >
@@ -124,15 +88,14 @@ const OnBoard = () => {
                 </select>
               </div>
 
-              {/* Phone Number */}
               <div className="mb-6">
                 <label className="block text-sm text-gray-300 mb-1" htmlFor="phoneNumber">
                   Department Phone Number
                 </label>
                 <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={form.phoneNumber}
+                  id="contact"
+                  name="contact"
+                  value={form.contact}
                   onChange={onChange}
                   inputMode="numeric"
                   placeholder="1234567890"
@@ -145,10 +108,10 @@ const OnBoard = () => {
 
               <button
                 type="submit"
-                disabled={submitting}
-                className="w-full rounded-xl px-6 py-3 text-white font-semibold bg-[#2298b9] hover:bg-[#1f89a7] active:bg-[#1c7b95] shadow-lg shadow-[#2298b9]/30 transition-transform hover:scale-[1.02] disabled:opacity-60"
+                disabled={registering}
+                className="w-full rounded-xl px-6 py-3 text-white font-semibold bg-[#2298b9] hover:bg-[#1f89a7] active:bg-[#1c7b95] shadow-lg shadow-[#2298b9]/30 transition-transform hover:scale-[1.02] disabled:opacity-60 cursor-pointer"
               >
-                {submitting ? "Adding..." : "Add Department"}
+                {registering ? "Adding..." : "Add Department"}
               </button>
             </form>
           </div>
@@ -167,12 +130,6 @@ const OnBoard = () => {
                         <h3 className="text-gray-100 font-medium">{dept.name}</h3>
                         <p className="text-gray-300 text-sm">Phone: {dept.contact}</p>
                       </div>
-                      <button
-                        onClick={() => removeDepartment(index)}
-                        className="text-red-400 hover:text-red-300 text-sm"
-                      >
-                        Remove
-                      </button>
                     </div>
                   </div>
                 ))}
@@ -180,8 +137,6 @@ const OnBoard = () => {
             )}
           </div>
         </div>
-
-
       </main>
     </>
   );

@@ -489,3 +489,14 @@ export interface TierInfo {
     points: string;
     img: string;
 }
+
+export interface DepartmentProps {
+    name: string;
+    contact: string;
+};
+
+export interface Department {
+    _id: string;
+    name: string;
+    contact: string;
+};
