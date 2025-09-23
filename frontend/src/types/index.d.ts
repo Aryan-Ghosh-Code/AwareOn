@@ -144,7 +144,11 @@ export interface Problem {
     }[];
     createdAt: string;
     updatedAt: string;
+
+    upvotes?: number;
 }
+
+
 
 export interface ProjectCreationProps {
     name: string;

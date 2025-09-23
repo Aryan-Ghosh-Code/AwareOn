@@ -11,6 +11,7 @@ const ProblemRepository = () => {
   const [filteredProblems, setFilteredProblems] = useState<Problem[] | null>(null);
   const { loading, getProblems } = useGetProblems();
 
+  // 🔄 Fetch problems from backend
   const fetchProblems = async () => {
     const fetchedProblems = await getProblems();
     setProblems(fetchedProblems);
@@ -30,7 +31,7 @@ const ProblemRepository = () => {
     setFilteredProblems(results);
   };
 
-  // 🏛 Filter by Ministry (instead of SDG)
+  // 🏛 Filter by Ministry
   const handleFilterMinistry = (ministry: string) => {
     if (!problems) return;
     const results = problems.filter(
@@ -39,19 +40,48 @@ const ProblemRepository = () => {
     setFilteredProblems(results);
   };
 
-  // 📍 Filter by location
+  // 📍 Filter by Location
   const handleFilterLocation = (location: string) => {
     if (!problems) return;
-    const results = problems.filter(
-      (problem) =>
-        problem.location.address.toLowerCase().includes(location.toLowerCase())
+    const results = problems.filter((problem) =>
+      problem.location.address.toLowerCase().includes(location.toLowerCase())
     );
     setFilteredProblems(results);
   };
 
-  // 🔄 Reset
+  // 🔄 Reset filters
   const resetFilters = () => {
     setFilteredProblems(problems);
+  };
+
+  // ⬆️ Handle upvote
+  const handleUpvote = async (problemId: string) => {
+    try {
+      const res = await fetch(`/api/problems/${problemId}/upvote`, {
+        method: "POST",
+      });
+
+      if (res.ok) {
+        // update frontend state without full reload
+        setFilteredProblems((prev) =>
+          prev
+            ? prev.map((p) =>
+                p._id === problemId ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p
+              )
+            : prev
+        );
+
+        setProblems((prev) =>
+          prev
+            ? prev.map((p) =>
+                p._id === problemId ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p
+              )
+            : prev
+        );
+      }
+    } catch (error) {
+      console.error("Error upvoting problem:", error);
+    }
   };
 
   if (loading || !filteredProblems) {
@@ -62,7 +92,7 @@ const ProblemRepository = () => {
     );
   }
 
-  // Unique dropdown options
+  // ✅ Unique dropdown options
   const ministryOptions = Array.from(
     new Set(problems?.map((p) => p.ministry) || [])
   );
@@ -88,16 +118,16 @@ const ProblemRepository = () => {
           rounded-xl px-6 py-3 w-fit mx-auto 
           shadow-lg shadow-[#2298b9]"
         >
-          🌍 Problems Reported Across Regions ⚠️
+          Problems Reported Across Regions
         </h2>
 
-        {/* Search & Filters */}
+        {/* 🔍 Search & Filters */}
         <ProblemSearchBar
           onSearch={handleSearch}
           resetFilters={resetFilters}
-          ministryOptions={ministryOptions}   // ✅ new prop
+          ministryOptions={ministryOptions}
           locationOptions={locationOptions}
-          onFilterMinistry={handleFilterMinistry} // ✅ new handler
+          onFilterMinistry={handleFilterMinistry}
           onFilterLocation={handleFilterLocation}
         />
 
@@ -106,7 +136,11 @@ const ProblemRepository = () => {
             <p className="text-gray-400 text-center">No problems found.</p>
           ) : (
             filteredProblems.map((problem: Problem) => (
-              <ProblemCard key={problem._id} problem={problem} />
+              <ProblemCard
+                key={problem._id}
+                problem={problem}
+                onUpvote={() => handleUpvote(problem._id)} // ✅ Pass upvote handler
+              />
             ))
           )}
         </div>
