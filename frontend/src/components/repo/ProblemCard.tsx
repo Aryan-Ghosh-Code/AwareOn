@@ -3,6 +3,7 @@ import type { Problem } from "../../types";
 
 interface ProblemCardProps {
   problem: Problem;
+	onUpvote: () => void;
 }
 
 const ProblemCard = ({problem}: ProblemCardProps) => {
