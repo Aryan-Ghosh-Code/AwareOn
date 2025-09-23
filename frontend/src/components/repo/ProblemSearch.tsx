@@ -5,18 +5,18 @@ import { MdDelete } from "react-icons/md";
 type ProblemSearchBarProps = {
   onSearch: (query: string) => void;
   resetFilters: () => void;
-  sdgOptions: string[];
   locationOptions: string[];
-  onFilterSDG: (sdg: string) => void;
+  ministryOptions: string[];
+  onFilterMinistry: (ministry: string) => void;
   onFilterLocation: (location: string) => void;
 };
 
 const ProblemSearchBar: React.FC<ProblemSearchBarProps> = ({
   onSearch,
   resetFilters,
-  sdgOptions,
   locationOptions,
-  onFilterSDG,
+  ministryOptions,
+  onFilterMinistry,
   onFilterLocation,
 }) => {
   const [search, setSearch] = useState<string>("");
@@ -56,15 +56,15 @@ const ProblemSearchBar: React.FC<ProblemSearchBarProps> = ({
               <FaGlobe className="text-blue-400" />
               <select
                 className=" bg-[#373F51]  text-gray-200 outline-none border-none rounded-md px-2 py-1"
-                onChange={(e) => onFilterSDG(e.target.value)}
+                onChange={(e) => onFilterMinistry(e.target.value)}
                 defaultValue=""
               >
                 <option value="" disabled>
-                  Filter by SDG
+                  Filter by Ministry
                 </option>
-                {sdgOptions.map((sdg) => (
-                  <option key={sdg} value={sdg}>
-                    {sdg}
+                {ministryOptions.map((ministry) => (
+                  <option key={ministry} value={ministry}>
+                    {ministry}
                   </option>
                 ))}
               </select>

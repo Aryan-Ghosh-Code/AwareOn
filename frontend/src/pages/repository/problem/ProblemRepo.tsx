@@ -30,10 +30,12 @@ const ProblemRepository = () => {
     setFilteredProblems(results);
   };
 
-  // 🌍 Filter by SDG
-  const handleFilterSDG = (sdg: string) => {
+  // 🏛 Filter by Ministry (instead of SDG)
+  const handleFilterMinistry = (ministry: string) => {
     if (!problems) return;
-    const results = problems.filter((problem) => problem.SDG.includes(sdg));
+    const results = problems.filter(
+      (problem) => problem.ministry.toLowerCase() === ministry.toLowerCase()
+    );
     setFilteredProblems(results);
   };
 
@@ -61,7 +63,9 @@ const ProblemRepository = () => {
   }
 
   // Unique dropdown options
-  const sdgOptions = Array.from(new Set(problems?.flatMap((p) => p.SDG) || []));
+  const ministryOptions = Array.from(
+    new Set(problems?.map((p) => p.ministry) || [])
+  );
 
   const locationOptions = Array.from(
     new Set(problems?.map((p) => p.location.address) || [])
@@ -77,11 +81,13 @@ const ProblemRepository = () => {
         </h1>
 
         {/* Subtitle */}
-        <h2 className="flex items-center justify-center gap-2 
+        <h2
+          className="flex items-center justify-center gap-2 
           text-2xl md:text-3xl font-bold text-[#2298b9] 
           bg-[#1B2432] border-2 border-[#2298b9]
           rounded-xl px-6 py-3 w-fit mx-auto 
-          shadow-lg shadow-[#2298b9]">
+          shadow-lg shadow-[#2298b9]"
+        >
           🌍 Problems Reported Across Regions ⚠️
         </h2>
 
@@ -89,9 +95,9 @@ const ProblemRepository = () => {
         <ProblemSearchBar
           onSearch={handleSearch}
           resetFilters={resetFilters}
-          sdgOptions={sdgOptions}
+          ministryOptions={ministryOptions}   // ✅ new prop
           locationOptions={locationOptions}
-          onFilterSDG={handleFilterSDG}
+          onFilterMinistry={handleFilterMinistry} // ✅ new handler
           onFilterLocation={handleFilterLocation}
         />
 
@@ -100,9 +106,7 @@ const ProblemRepository = () => {
             <p className="text-gray-400 text-center">No problems found.</p>
           ) : (
             filteredProblems.map((problem: Problem) => (
-              <ProblemCard
-                problem={problem}
-              />
+              <ProblemCard key={problem._id} problem={problem} />
             ))
           )}
         </div>

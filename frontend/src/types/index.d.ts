@@ -121,11 +121,13 @@ export interface Problem {
     owner: OwnerPreview;
     url: string;
     problem: string;
-    SDG: string[];
+    ministry: string;
+    description?: string | null;
     alertLevel: string;
     confidence: number;
     actionableInsights: string[];
-    NGOWorking: WorkingEntityPreview[];
+    shortTermImpacts: string[];
+    longTermImpacts: string[];
     GovtWorking: WorkingEntityPreview[];
     reports: ReportPreview[] | string[];
     statusForUser: string;
