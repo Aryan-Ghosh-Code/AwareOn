@@ -73,7 +73,7 @@ const UserSchema = new mongoose.Schema({
     openCommunity: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "SDGCommunity"
+            ref: "OpenCommunity"
         }
     ]
 }, { timestamps: true });

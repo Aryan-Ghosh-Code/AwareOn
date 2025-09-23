@@ -180,3 +180,26 @@ export const viewProblems = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
+
+export const upvoteProblemById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const problem = await Problem.findById(id);
+        if (!problem) {
+            res.status(400).json({ error: "Error in fetching problems" });
+            return;
+        }
+
+        problem.upvotes += 1;
+        if (problem.upvotes >= 5) {
+            problem.problemStatus = "verified";
+        }
+
+        await problem.save();
+
+        res.status(200).json(problem);
+    } catch (error) {
+        console.log("Error in User upvoteProblemById controller", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Community from "../../models/community.model";
 import { getReceiverSocketId, io } from "../../socket/socket";
 import Govt from "../../models/govt.model";
-import SDGCommunity from "../../models/openCommunity.model";
+import OpenCommunity from "../../models/openCommunity.model";
 
 export const sendMessageToCommunity = async (req: Request, res: Response) => {
     try {
@@ -144,7 +144,7 @@ export const getOpenCommunities = async (req: Request, res: Response) => {
             return;
         }
 
-        const openCommunities = await SDGCommunity.find({
+        const openCommunities = await OpenCommunity.find({
             _id: { $nin: govt.openCommunity },
         }).select("-chats");
 
@@ -169,7 +169,7 @@ export const joinOpenCommunity = async (req: Request, res: Response) => {
             return;
         }
 
-        const openCommunity = await SDGCommunity.findById(id).select("-chats");
+        const openCommunity = await OpenCommunity.findById(id).select("-chats");
         if (!openCommunity) {
             res.status(400).json({ error: "Cannot find Community" });
             return;
@@ -206,7 +206,7 @@ export const getOpenCommunityDetails = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const community = await SDGCommunity.findById(id)
+        const community = await OpenCommunity.findById(id)
             .populate({
                 path: "members.memberId",
                 select: "_id name profilePic email",
@@ -239,7 +239,7 @@ export const sendMessageToOpenCommunity = async (req: Request, res: Response) =>
             return;
         }
 
-        const community = await SDGCommunity.findById(id);
+        const community = await OpenCommunity.findById(id);
         if (!community) {
             res.status(400).json({ error: "Community not found" });
             return;
