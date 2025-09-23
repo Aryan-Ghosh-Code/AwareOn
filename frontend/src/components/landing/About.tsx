@@ -7,16 +7,20 @@ const About = () => {
 		<div id="about" className="mt-8 w-full items-center justify-center p-4">
 			<div className="w-full flex flex-col gap-1 items-center justify-center">
 				<h1 className="text-[39px] lg:text-[50px] text-secondary">About</h1>
-				<p className="text-subhead">What is Aab-o-Hawa? Know about Us!</p>
+				<p className="text-subhead">What is Awareon? Know about Us!</p>
 			</div>
 
 			<div className="flex flex-col lg:flex-row gap-4 lg:gap-8 mt-10 items-center justify-center">
 				<img src="/about.jpg" alt="about" className="w-[30%] lg:w-[30%] z-20" />
 
 				<div className="flex flex-col items-center justify-center lg:items-start gap-2 mt-5 lg:mt-0">
-					<h1 className="text-tertiary text-4xl lg:text-5xl">Welcome to <span className="!text-blue-400">Aab-o-Hawa</span></h1>
+					<h1 className="text-tertiary text-4xl lg:text-5xl">Welcome to <span className="!text-blue-400">Awareon</span></h1>
 					<p className="para lg:!text-left">
-						Aab-o-Hawa is a technology-driven platform focused on environmental monitoring and protection. We leverage advanced Machine Learning and Deep Learning models to analyze images, videos, and satellite data for identifying deforestation, forest fires, water pollution, waste management issues, and other ecological concerns. Our goal is to provide accurate, real-time insights that support researchers, policymakers, and communities in making informed decisions. By combining innovation with sustainability, Aab-o-Hawa bridges the gap between data and action—empowering society to safeguard natural resources and build a cleaner, healthier future for generations to come.
+						AwareOn is a technology-driven platform focused on urban governance and community engagement. We leverage advanced AI, geotagging, and real-time data visualization to streamline the reporting and resolution of civic issues such as potholes, broken streetlights, sanitation gaps, and waste management concerns.
+
+Our goal is to provide transparent, efficient, and scalable solutions that empower citizens to report problems effortlessly while enabling municipalities to prioritize, route, and resolve them faster. Through live dashboards, analytics, and gamified participation, CivicEase bridges the gap between citizens and governments—fostering accountability, collaboration, and smarter cities.
+
+By combining innovation with inclusivity, CivicEase transforms everyday problem reporting into a collective movement for better governance and sustainable urban living.
 
 					</p>
 
@@ -34,13 +38,6 @@ const About = () => {
 									onClick={() => setOpen(false)}
 								>
 									User Signup
-								</Link>
-								<Link
-									to="/ngo/signup"
-									className="px-4 py-2 hover:bg-gray-100 text-left text-[#ffffff] hover:text-black"
-									onClick={() => setOpen(false)}
-								>
-									NGO Signup
 								</Link>
 								<Link
 									to="/gov/signup"
