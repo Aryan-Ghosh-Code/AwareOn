@@ -86,7 +86,7 @@ const ProblemDetails = () => {
           <h2 className="text-xl font-semibold text-gray-100 mb-2">Additional Info</h2>
           <p className="text-gray-300"><span className="font-semibold">Ministry:</span> {problem.ministry}</p>
           <p className="text-gray-300"><span className="font-semibold">Alert Level:</span> {problem.alertLevel}</p>
-          <p className="text-gray-300"><span className="font-semibold">Confidence:</span> {problem.confidence}%</p>
+          <p className="text-gray-300"><span className="font-semibold">Confidence:</span> {(problem.confidence * 100.0).toFixed(2)}%</p>
           {problem.description && (
             <p className="text-gray-300 mt-2"><span className="font-semibold">Description:</span> {problem.description}</p>
           )}

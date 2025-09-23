@@ -3,19 +3,13 @@ import { ModelResult, PostProblemProps } from "../../types";
 import Problem from "../../models/problem.model";
 import User from "../../models/user.model";
 import getGeocodedAddress from "../../utils/getGeocodedAddress";
-import Project from "../../models/project.model";
-import twilioClient from "../../services/twilio";
-import NGO from "../../models/ngo.model";
+import notifyGovernment from "../../utils/notifyGovernment";
+import extractTownCity from "../../utils/extractTownCity";
 
 export const postProblem = async (req: Request, res: Response) => {
     try {
         const id = req.user?._id;
-        const {
-            url,
-            description,
-            lat,
-            lon
-        }: PostProblemProps = req.body;
+        const { url, description, lat, lon }: PostProblemProps = req.body;
 
         if (!url) {
             res.status(400).json({ error: "Image is required" });
@@ -25,30 +19,56 @@ export const postProblem = async (req: Request, res: Response) => {
             res.status(400).json({ error: "Error in fetching your location" });
             return;
         }
-
         const address = await getGeocodedAddress(lat, lon);
         if (!address) {
             res.status(400).json({ error: "Error in fetching your location" });
             return;
         }
 
-        /*const response = await fetch(`${process.env.MODEL_URL}/predict`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                imgUrl: url,
-                description: description || "Climate & Biodiversity Hazard"
-            })
+        /*
+        const response = await fetch(`${process.env.MODEL_URL}/predict`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            imgUrl: url,
+            description: description || "Climate & Biodiversity Hazard"
+          })
+        });
+        const modelResult = await response.json() as ModelResult;
+        if (!modelResult)
+          return res.status(400).json({ error: "Error in uploading Problem. Try again later" });
+        */
+
+        const predictedProblem = "Stagnant Water";
+        const ministry = "Municipal Health Department";
+
+        const { town, city } = extractTownCity(address);
+
+        const existingProblem = await Problem.findOne({
+            problem: predictedProblem,
+            "location.lat": lat,
+            "location.lon": lon
         });
 
-        const modelResult = await response.json() as ModelResult;
+        if (existingProblem) {
+            existingProblem.upvotes += 1;
 
-        if (!modelResult) {
-            res.status(400).json({ error: "Error in uploading Problem. Try again later" });
-            return;
-        }*/
+            // HARD_LIMIT = 5
+            if (existingProblem.upvotes >= 5) {
+                existingProblem.problemStatus = "verified";
+
+                await notifyGovernment(
+                    ministry,
+                    town,
+                    city,
+                    existingProblem.problem,
+                    existingProblem.location!.address
+                );
+            }
+
+            await existingProblem.save();
+            return res.status(200).json(existingProblem);
+        }
 
         const newProblem = new Problem({
             owner: id,
@@ -56,10 +76,12 @@ export const postProblem = async (req: Request, res: Response) => {
             location: {
                 lat,
                 lon,
-                address
+                address,
+                town,
+                city
             },
-            problem: "Stagnant Water",
-            ministry: "Municipal Health Department",
+            problem: predictedProblem,
+            ministry,
             description,
             alertLevel: "high",
             confidence: 0.9873,
@@ -80,40 +102,16 @@ export const postProblem = async (req: Request, res: Response) => {
             ]
         });
 
-        if (newProblem) {
-            const user = await User.findById(id);
-            if (!user) {
-                res.status(400).json({ error: "Cannot find user" });
-                return;
-            }
-            user.problemRepoIds.push(newProblem._id);
+        const user = await User.findById(id);
+        if (!user) return res.status(400).json({ error: "Cannot find user" });
 
-            await Promise.all([newProblem.save(), user.save()]);
+        user.problemRepoIds.push(newProblem._id);
+        await Promise.all([newProblem.save(), user.save()]);
 
-            /*const ngos = await NGO.find({
-                SDG: { $in: newProblem.SDG }
-            });
-
-            for (const ngo of ngos) {
-                if (ngo && ngo.mobileNo) {
-                    const message = `🚨 SOS Alert: ${newProblem.problem} - ${address}`;
-
-                    const sms = await twilioClient.messages.create({
-                        body: message,
-                        from: process.env.TWILIO_PHONE_NUMBER,
-                        to: `+91${ngo.mobileNo}`,
-                        messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID
-                    });
-                }
-            }*/
-
-            res.status(201).json(newProblem);
-        } else {
-            res.status(400).json({ error: "Error in posting Problem" });
-        }
+        res.status(201).json(newProblem);
     } catch (error) {
         console.log("Error in User postProblem controller", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 }
 
@@ -186,20 +184,29 @@ export const upvoteProblemById = async (req: Request, res: Response) => {
         const id = req.params.id;
         const problem = await Problem.findById(id);
         if (!problem) {
-            res.status(400).json({ error: "Error in fetching problems" });
-            return;
+            return res.status(400).json({ error: "Error in fetching problems" });
         }
 
         problem.upvotes += 1;
-        if (problem.upvotes >= 5) {
+
+        // HARD_LIMIT = 5
+        if (problem.upvotes >= 5 && problem.problemStatus !== "verified") {
             problem.problemStatus = "verified";
+            const { town, city } = extractTownCity(problem.location!.address);
+
+            await notifyGovernment(
+                problem.ministry,
+                town,
+                city,
+                problem.problem,
+                problem.location!.address
+            );
         }
 
         await problem.save();
-
-        res.status(200).json(problem);
+        return res.status(200).json(problem);
     } catch (error) {
-        console.log("Error in User upvoteProblemById controller", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error in User upvoteProblemById controller", error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
