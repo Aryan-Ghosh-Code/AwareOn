@@ -7,8 +7,8 @@ const Activities = () => {
     // { label: "Project Repository", color: "bg-[#1d4d86] hover:bg-[#2298b9]", path: "/repository/project" },
     { label: "Hotspot Dashboard", color: "bg-[#49752b] hover:bg-[#71af3e]", path: "/dashboard" },
     { label: "Progress Tracker", color: "bg-[#1d4d86] hover:bg-[#2298b9]", path: "/progress-tracker" },
-    // { label: "Upload Problem", color: "bg-[#1d4d86] hover:bg-[#2298b9]", path: "/repository/problem/upload" },
-    { label: "Upload Project", color: "bg-[#49752b] hover:bg-[#71af3e]", path: "/repository/project/upload" },
+    { label: "Upload Problem", color: "bg-[#49752b] hover:bg-[#71af3e]", path: "/repository/problem/upload" },
+    //{ label: "Upload Project", color: "bg-[#49752b] hover:bg-[#71af3e]", path: "/repository/project/upload" },
     { label: "Games", color: "bg-[#1d4d86] hover:bg-[#2298b9]", path: "/game" },
     { label: "Community", color:"bg-[#49752b] hover:bg-[#71af3e]", path: "/community"  }
   ]);
