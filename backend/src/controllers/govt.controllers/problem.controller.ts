@@ -28,10 +28,6 @@ export const viewProblemById = async (req: Request, res: Response) => {
                 select: "name profilePic email"
             })
             .populate({
-                path: "NGOWorking",
-                select: "name profilePic email"
-            })
-            .populate({
                 path: "GovtWorking",
                 select: "name profilePic email"
             })
