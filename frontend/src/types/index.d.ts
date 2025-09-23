@@ -297,9 +297,15 @@ export interface Report {
 
 export interface StatsProps {
     problems: number;
-    problems13: number;
-    problems14: number;
-    problems15: number;
+    roadTransportProblems: number;
+    urbanDevelopmentProblems: number;
+    trafficPoliceProblems: number;
+    transportProblems: number;
+    forestProblems: number;
+    environmentProblems: number;
+    municipalHealthProblems: number;
+    publicWorksProblems: number;
+    powerSupplyProblems: number;
     pendingProblems: number;
     ongoingProblems: number;
     resolvedForUser: number;
@@ -314,15 +320,18 @@ export interface StatsProps {
         thirtyDaysAgo: number;
     };
     _id?: string | null;
-    funds13: number;
-    funds14: number;
-    funds15: number;
 }
 
-export interface ProblemsBySDG {
-    sdg13: number;
-    sdg14: number;
-    sdg15: number;
+export interface ProblemsByMinistry {
+    roadTransport: number;
+    urbanDevelopment: number;
+    trafficPolice: number;
+    transport: number;
+    forest: number;
+    environment: number;
+    municipalHealth: number;
+    publicWorks: number;
+    powerSupply: number;
 }
 
 export interface ProblemStatus {
@@ -354,10 +363,9 @@ export interface ReportedProblems {
 
 export interface DashboardData {
     totalProblems: number;
-    problemsBySDG: ProblemsBySDG;
+    problemsByMinistry: ProblemsByMinistry;
     problemStatus: ProblemStatus;
     resolvedComparison: ResolvedComparison;
-    fundsRaised: FundsRaised;
     reportedProblems: ReportedProblems;
 }
 
