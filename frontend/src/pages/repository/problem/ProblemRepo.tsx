@@ -54,36 +54,6 @@ const ProblemRepository = () => {
     setFilteredProblems(problems);
   };
 
-  // ⬆️ Handle upvote
-  const handleUpvote = async (problemId: string) => {
-    try {
-      const res = await fetch(`/api/problems/${problemId}/upvote`, {
-        method: "POST",
-      });
-
-      if (res.ok) {
-        // update frontend state without full reload
-        setFilteredProblems((prev) =>
-          prev
-            ? prev.map((p) =>
-                p._id === problemId ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p
-              )
-            : prev
-        );
-
-        setProblems((prev) =>
-          prev
-            ? prev.map((p) =>
-                p._id === problemId ? { ...p, upvotes: (p.upvotes || 0) + 1 } : p
-              )
-            : prev
-        );
-      }
-    } catch (error) {
-      console.error("Error upvoting problem:", error);
-    }
-  };
-
   if (loading || !filteredProblems) {
     return (
       <div className="flex w-full min-h-screen items-center justify-center z-0">
@@ -139,7 +109,6 @@ const ProblemRepository = () => {
               <ProblemCard
                 key={problem._id}
                 problem={problem}
-                onUpvote={() => handleUpvote(problem._id)} // ✅ Pass upvote handler
               />
             ))
           )}

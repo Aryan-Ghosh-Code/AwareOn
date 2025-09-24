@@ -142,10 +142,10 @@ export interface Problem {
         name: string;
         message: string
     }[];
+    upvotes: number;
+    problemStatus: "halted" | "verified";
     createdAt: string;
     updatedAt: string;
-
-    upvotes?: number;
 }
 
 

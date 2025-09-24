@@ -204,7 +204,7 @@ export const upvoteProblemById = async (req: Request, res: Response) => {
         }
 
         await problem.save();
-        return res.status(200).json(problem);
+        return res.status(200).json(problem.upvotes);
     } catch (error) {
         console.error("Error in User upvoteProblemById controller", error);
         return res.status(500).json({ error: "Internal Server Error" });
