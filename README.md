@@ -1,2 +1,1 @@
-# Awareon-SIH-25
-SIH 2025: #SIH25031
+# AwareOn
