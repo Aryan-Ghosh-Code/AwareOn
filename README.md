@@ -74,23 +74,41 @@ graph TD
 
 ## ⚙️ Tech Stack  
 
-  - **Frontend** → React (Web) + Android (Mobile)  
-  - **Backend** → Flask / Node.js (APIs), MongoDB / PostgreSQL  
-  - **AI/ML** → CNNs for Image/Video classification, HuggingFace for NLP  
-  - **Hosting** → AWS / GCP Cloud Storage + CDN  
-  - **Visualization** → Mapbox / Leaflet + Recharts  
-  - **Security** → RBAC, AES encryption, anomaly detection  
+- Frontend 🖥️
+    - React, React Native (Expo), React Webcam
+    - Cloudinary (media storage)
+
+- Backend ⚡
+    - Node.js + Express, FastAPI (ML serving)
+    - MongoDB, PostgreSQL, Redis
+    - Twilio (alerts), Stripe (CSR/payments)
+
+- AI/ML 🤖
+    - NumPy (image/video preprocessing)
+    - CNN Ensemble (image/video classification)
+    - Whisper (speech-to-text)
+    - HuggingFace Transformers / BERT (text intent classification)
 
 ---
 
 ## 📊 Workflow  
 
-1. Citizen uploads **photo/voice/text** of issue  
-2. System verifies metadata + classifies type (pothole, garbage, light, etc.)  
-3. Issue is stored in **repository** with severity level  
-4. Backend routes to correct municipal dept.  
-5. Admin dashboard updates with **real-time progress**  
-6. Citizens earn points + see gamified rewards  
+1. Users & Government Bodies access the system via Web + Mobile App.
+2. Citizens upload issues (Image / Text / Voice).
+3. System performs authenticity verification (metadata checks).
+4. AI/ML models identify the problem category (pothole, garbage, light, etc.).
+5. Verified issues are stored in a central Problem Repository.
+6. From the repository:
+   - 🚨 SOS alerts → sent to relevant municipal departments
+    - 👨‍💼 Govt. bodies → pick up & resolve issues
+    - 📋 Reports → generated for insights & accountability
+    - 📍 Location-based hotspot visualization
+    - 🔺 Citizens can upvote existing issues
+7. Meanwhile, a Data Dashboard provides:
+   - 📈 Real-time progress tracker
+    - 🗂 Dept-wise visualization
+8. Gamified Engagement modules → reward citizens with points, badges, leaderboards
+9. Community Engagement → citizens join local or tier-based groups
 
 ---
 
@@ -158,16 +176,17 @@ graph TD
 - [Data.gov.in – Population of Kolkata](https://www.data.gov.in/resource/final-population-totals-kolkata-district-west-bengal-2001)  
 - [Data.gov.in – Traffic Congestion (Delhi)](https://www.data.gov.in/resource/details-areas-prone-congestiontraffic-jam-and-facing-encroachment-problems-delhi-answered)  
 - [Kaggle – Civic Issue Severity Dataset](https://www.kaggle.com/datasets/sayan995/civic-issue-severity-1)  
-- [Awareon GitHub Repository](https://github.com/Tamoziit/Awareon-SIH-25)  
 
 ---
 
 ## 👥 Team Awareon  
 
-* 👨‍💻 Aryan Ghosh – Backend + ML  
-* 👨‍💻 Surajit Ray – Mobile App  
-* 👨‍💻 Anshley Mukherjee – Frontend Dashboard  
-* 👨‍💻 Debnanda Datta – Data & Analytics  
+* 👨‍💻 [Tamojit Das](https://github.com/Tamoziit)
+* 👨‍💻 [Atif Ali Sardar](https://github.com/atif0911)
+* 👨‍💻 [Aranya Basu](https://github.com/Aranya5)
+* 👨‍💻 [Tiasha Ganguly](https://github.com/Tiasha-code)
+* 👨‍💻 [Aryan Ghosh](https://github.com/Aryan-Ghosh-Code)
+* 👨‍💻 [Diya Gupta](https://github.com/diya019-git)
 
 ---
 
